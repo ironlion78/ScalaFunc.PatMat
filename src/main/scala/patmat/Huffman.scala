@@ -18,15 +18,21 @@ object Huffman {
    * present in the leaves below it. The weight of a `Fork` node is the sum of the weights of these
    * leaves.
    */
-    abstract class CodeTree
+  abstract class CodeTree
   case class Fork(left: CodeTree, right: CodeTree, chars: List[Char], weight: Int) extends CodeTree
   case class Leaf(char: Char, weight: Int) extends CodeTree
   
 
   // Part 1: Basics
-    def weight(tree: CodeTree): Int = ??? // tree match ...
+    def weight(tree: CodeTree): Int = tree match {
+      case Fork(l, r, cs, w) => w //weight(l) + weight(r)
+      case Leaf(c, w) => w
+    }
   
-    def chars(tree: CodeTree): List[Char] = ??? // tree match ...
+    def chars(tree: CodeTree): List[Char] = tree match {
+      case Fork(l, r, cs, w) => cs //chars(l) ::: chars(r)
+      case Leaf(c, w) => List(c)
+    }
   
   def makeCodeTree(left: CodeTree, right: CodeTree) =
     Fork(left, right, chars(left) ::: chars(right), weight(left) + weight(right))
@@ -69,7 +75,29 @@ object Huffman {
    *       println("integer is  : "+ theInt)
    *   }
    */
-    def times(chars: List[Char]): List[(Char, Int)] = ???
+    def times(chars: List[Char]): List[(Char, Int)] = {
+//      def count(c: Char, cs: List[Char]): Int = cs match {
+//        case Nil => 0
+//        case hd::tl => count(c, tl) + (if (hd == c) 1 else 0)
+//      }
+      def addChar (c: Char, l: List[(Char, Int)]): List[(Char, Int)] = {
+        l match {
+          case Nil => l
+          case hd::tl => {
+            hd match {
+              case (c, i) => (c, i + 1) :: tl
+              case _ => hd :: addChar(c, tl)
+            }
+          }
+        }
+      }
+      def processChars (cs: List[Char], res: List[(Char, Int)]): List[(Char, Int)] =
+        cs match {
+        case Nil => res
+        case hd::tl => processChars (tl, addChar(hd, res))
+      }
+      processChars(chars, Nil)
+    }
   
   /**
    * Returns a list of `Leaf` nodes for a given frequency table `freqs`.
@@ -78,12 +106,27 @@ object Huffman {
    * head of the list should have the smallest weight), where the weight
    * of a leaf is the frequency of the character.
    */
-    def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = ???
+    def makeOrderedLeafList(freqs: List[(Char, Int)]): List[Leaf] = {
+      def addLeaf(freq: (Char, Int), sortList: List[Leaf]): List[Leaf] = {
+        val leaf = Leaf(freq._1, freq._2)
+        sortList match {
+          case Nil => List(leaf)
+          case hd::tl => if (leaf.weight < hd.weight) leaf :: sortList else hd :: addLeaf(freq, tl)
+        }
+      }
+      def sort(unsorted: List[(Char, Int)], sorted: List[Leaf]): List[Leaf] = {
+        unsorted match {
+          case Nil => sorted
+          case hd::tl => sort(tl, addLeaf(hd, sorted))
+        }
+      }
+      sort(freqs, Nil)
+  }
   
   /**
    * Checks whether the list `trees` contains only one single code tree.
    */
-    def singleton(trees: List[CodeTree]): Boolean = ???
+    def singleton(trees: List[CodeTree]): Boolean = trees.length < 2
   
   /**
    * The parameter `trees` of this function is a list of code trees ordered
@@ -97,7 +140,15 @@ object Huffman {
    * If `trees` is a list of less than two elements, that list should be returned
    * unchanged.
    */
-    def combine(trees: List[CodeTree]): List[CodeTree] = ???
+    def combine(trees: List[CodeTree]): List[CodeTree] = {
+      def insert(tree: Fork, sortedtrees: List[CodeTree]): List[CodeTree] = {
+        sortedtrees match {
+          case Nil => List(tree)
+          case hd::tl => if (tree.weight < weight(hd)) tree :: sortedtrees else hd :: insert(tree, tl)
+        }
+      }
+      if (singleton(trees)) trees else insert(makeCodeTree(trees.head, trees.tail.head), trees.tail.tail)
+    }
   
   /**
    * This function will be called in the following way:
