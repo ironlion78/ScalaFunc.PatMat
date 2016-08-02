@@ -33,17 +33,46 @@ class HuffmanSuite extends FunSuite {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
   }
 
+  test("times of some char list basic") {
+    val charList = List('a', 'b', 'a')
+    val timesList = List(('a', 2), ('b', 1))
+    assert(times(charList) === timesList)
+  }
+
+  test("times of some char list juicier") {
+    val charList = List('x', 't', 'e', 'x', 'x', 't', 'x')
+    val timesList = List(('x', 4), ('t', 2), ('e', 1))
+    assert(times(charList) === timesList)
+  }
 
   test("makeOrderedLeafList for some frequency table") {
     assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) === List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
   }
-
 
   test("combine of some leaf list") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
   }
 
+  test("double combine of some leaf list") {
+    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+    assert(combine(combine(leaflist)) === List(Fork(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4), List('e', 't', 'x'), 7)))
+    println(combine(combine(leaflist)).length.toString())
+  }
+
+  test("combine until singleton of some leaf list") {
+    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+    assert(until(singleton,combine)(leaflist) === List(Fork(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4), List('e', 't', 'x'), 7)))
+//    println(combine(combine(leaflist)).length.toString())
+  }
+
+  test("make code tree of some leaf list") {
+    val charList = List('x', 't', 'e', 'x', 'x', 't', 'x')
+    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
+    assert(makeOrderedLeafList(times(charList)) === leaflist)
+//    assert(until(singleton,combine)(leaflist) === List(Fork(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4), List('e', 't', 'x'), 7)))
+    //    println(combine(combine(leaflist)).length.toString())
+  }
 
   test("decode and encode a very short text should be identity") {
     new TestTrees {

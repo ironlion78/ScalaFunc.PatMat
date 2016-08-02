@@ -78,10 +78,10 @@ object Huffman {
     def times(chars: List[Char]): List[(Char, Int)] = {
       def addChar (c: Char, l: List[(Char, Int)]): List[(Char, Int)] = {
         l match {
-          case Nil => l
+          case Nil => List((c, 1))
           case hd::tl => {
             hd match {
-              case (c, i) => (c, i + 1) :: tl
+              case (`c`, i) => (c, i + 1) :: tl
               case _ => hd :: addChar(c, tl)
             }
           }
@@ -89,8 +89,8 @@ object Huffman {
       }
       def processChars (cs: List[Char], res: List[(Char, Int)]): List[(Char, Int)] =
         cs match {
-        case Nil => res
-        case hd::tl => processChars (tl, addChar(hd, res))
+          case Nil => res
+          case hd::tl => processChars (tl, addChar(hd, res))
       }
       processChars(chars, Nil)
     }
@@ -174,8 +174,8 @@ object Huffman {
    * The parameter `chars` is an arbitrary text. This function extracts the character
    * frequencies from that text and creates a code tree based on them.
    */
-    def createCodeTree(chars: List[Char]): CodeTree = if (chars.isEmpty) Leaf(' ', 0) else until(singleton, combine)(makeOrderedLeafList(times(chars))).head
-  
+    def createCodeTree(chars: List[Char]): CodeTree = until(singleton, combine)(makeOrderedLeafList(times(chars))).head
+//if (chars.isEmpty) Leaf(' ', 0) else
 
   // Part 3: Decoding
 
