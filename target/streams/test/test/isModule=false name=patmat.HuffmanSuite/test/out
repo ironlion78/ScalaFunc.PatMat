@@ -8,17 +8,10 @@
 [0m[[0minfo[0m] [0m[32m- combine of some leaf list[0m[0m
 [0m[[0minfo[0m] [0m[32m- double combine of some leaf list[0m[0m
 [0m[[0minfo[0m] [0m[32m- combine until singleton of some leaf list[0m[0m
-[0m[[0minfo[0m] [0m[32m- make code tree of some leaf list[0m[0m
-[0m[[0minfo[0m] [0m[31m- decode and encode a very short text should be identity *** FAILED ***[0m[0m
-[0m[[0minfo[0m] [0m[31m  scala.NotImplementedError: an implementation is missing[0m[0m
-[0m[[0minfo[0m] [0m[31m  at scala.Predef$.$qmark$qmark$qmark(Predef.scala:225)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at patmat.Huffman$.encode(Huffman.scala:225)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at patmat.HuffmanSuite$$anonfun$11$$anon$3.<init>(HuffmanSuite.scala:79)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at patmat.HuffmanSuite$$anonfun$11.apply$mcV$sp(HuffmanSuite.scala:78)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at patmat.HuffmanSuite$$anonfun$11.apply(HuffmanSuite.scala:78)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at patmat.HuffmanSuite$$anonfun$11.apply(HuffmanSuite.scala:78)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at org.scalatest.Transformer$$anonfun$apply$1.apply$mcV$sp(Transformer.scala:22)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at org.scalatest.OutcomeOf$class.outcomeOf(OutcomeOf.scala:85)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)[0m[0m
-[0m[[0minfo[0m] [0m[31m  at org.scalatest.Transformer.apply(Transformer.scala:22)[0m[0m
-[0m[[0minfo[0m] [0m[31m  ...[0m[0m
+[0m[[0minfo[0m] [0m[32m- make ordered leaf list from freq table[0m[0m
+[0m[[0minfo[0m] [0m[32m- decode simplest text[0m[0m
+[0m[[0minfo[0m] [0m[32m- decode simple text[0m[0m
+[0m[[0minfo[0m] [0m[32m- decode and encode a very short text should be identity[0m[0m
+[0m[[0minfo[0m] [0m[32m- decode french secret[0m[0m
+[0m[[0minfo[0m] [0m[32m- convert code tables: t1 and t2[0m[0m
+[0m[[0minfo[0m] [0m[32m- quickie identity[0m[0m
